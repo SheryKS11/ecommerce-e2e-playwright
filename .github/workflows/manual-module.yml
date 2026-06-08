@@ -1,0 +1,56 @@
+name: Run by Module (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: 'Select module to run'
+        required: true
+        type: choice
+        options:
+          - account
+          - cart
+          - catalogue
+          - checkout
+          - wishlist
+          - reliability
+          - all
+
+jobs:
+  run-module:
+    runs-on: ubuntu-latest
+    env:
+      HEADLESS: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run selected module
+        run: |
+          MODULE="${{ github.event.inputs.module }}"
+          if [ "$MODULE" = "all" ]; then
+            npx cucumber-js --config cucumber.config.js
+          elif [ "$MODULE" = "wishlist" ]; then
+            npx cucumber-js --config cucumber.config.js --tags "@wishlist or @compare"
+          else
+            npx cucumber-js --config cucumber.config.js --tags "@$MODULE"
+          fi
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: module-${{ github.event.inputs.module }}-report
+          path: reports/
+          retention-days: 14

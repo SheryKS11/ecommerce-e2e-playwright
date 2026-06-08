@@ -1,0 +1,31 @@
+{
+  "name": "ecommerce-e2e-playwright1",
+  "version": "1.0.0",
+  "description": "BDD E2E tests for LambdaTest eCommerce Playground — Playwright + Cucumber",
+  "scripts": {
+    "setup": "npx tsx src/scripts/setup.ts",
+    "test": "cross-env HEADLESS=false cucumber-js --config cucumber.config.js",
+    "test:smoke": "cross-env HEADLESS=false cucumber-js --config cucumber.config.js --tags @smoke",
+    "test:negative": "cucumber-js --config cucumber.config.js --tags @negative",
+    "test:e2e": "cucumber-js --config cucumber.config.js --tags @e2e",
+    "test:functional": "cucumber-js --config cucumber.config.js --tags @functional",
+    "test:boundary": "cucumber-js --config cucumber.config.js --tags @boundary",
+    "test:reliability": "cucumber-js --config cucumber.config.js --tags @reliability",
+    "test:only": "cucumber-js --config cucumber.config.js --tags @only",
+    "test:tag": "cucumber-js --config cucumber.config.js --tags",
+    "test:firefox": "cross-env BROWSER=firefox cucumber-js --config cucumber.config.js --tags @compatibility",
+    "test:webkit": "cross-env BROWSER=webkit cucumber-js --config cucumber.config.js --tags @compatibility",
+    "test:chromium": "cross-env BROWSER=chromium cucumber-js --config cucumber.config.js --tags @compatibility"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^12.9.0",
+    "@playwright/test": "^1.44.0",
+    "playwright": "^1.44.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "cross-env": "^10.1.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
