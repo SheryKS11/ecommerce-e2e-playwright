@@ -1,8 +1,8 @@
 @reliability
-Feature: Cross-Browser Compatibility and Flakiness Control
+Feature: Cross-Browser Compatibility and Wait-Strategy Reliability
   As a QA engineer
   I want to verify consistent behaviour across browsers
-  So that I can demonstrate the difference between stable and flaky wait strategies
+  So that I can demonstrate the difference between robust auto-waiting and a fixed-sleep anti-pattern
 
   # TC29 - Compatibility
   @compatibility @TC29
@@ -13,14 +13,14 @@ Feature: Cross-Browser Compatibility and Flakiness Control
 
   # TC30 - Reliability — GOOD wait strategy (stable)
   @reliability @TC30 @good-wait
-  Scenario: GOOD wait strategy - product search is stable using auto-waiting assertions
+  Scenario: Auto-waiting strategy - product search is stable using web-first assertions
     Given I navigate to the home page
     When I search for "iPhone"
     Then the search results page should display matching products using auto-waiting assertions
 
-  # TC30 - Reliability — BAD wait strategy (intentionally flaky for demonstration)
+  # TC30 - Reliability — fixed-sleep anti-pattern (deterministic failure for demonstration)
   @reliability @TC30 @bad-wait
-  Scenario: BAD wait strategy - product search uses a fixed sleep that may be flaky
+  Scenario: Fixed-sleep anti-pattern - product search fails deterministically with a hard-coded wait
     Given I navigate to the home page
     When I search for "iPhone"
     Then the search results page should display matching products using a fixed sleep

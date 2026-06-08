@@ -1,4 +1,4 @@
-name: Run by Tag (Manual)
+name: Test by Tag
 
 on:
   workflow_dispatch:
@@ -42,7 +42,9 @@ jobs:
         run: |
           TAG="${{ github.event.inputs.tag }}"
           if [ "$TAG" = "all" ]; then
-            npx cucumber-js --config cucumber.config.js
+            npx cucumber-js --config cucumber.config.js --tags "not @bad-wait"
+          elif [ "$TAG" = "reliability" ]; then
+            npx cucumber-js --config cucumber.config.js --tags "@reliability and not @bad-wait"
           else
             npx cucumber-js --config cucumber.config.js --tags "@$TAG"
           fi

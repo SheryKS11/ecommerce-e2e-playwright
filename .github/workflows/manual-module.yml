@@ -1,4 +1,4 @@
-name: Run by Module (Manual)
+name: Test by Module
 
 on:
   workflow_dispatch:
@@ -40,7 +40,9 @@ jobs:
         run: |
           MODULE="${{ github.event.inputs.module }}"
           if [ "$MODULE" = "all" ]; then
-            npx cucumber-js --config cucumber.config.js
+            npx cucumber-js --config cucumber.config.js --tags "not @bad-wait"
+          elif [ "$MODULE" = "reliability" ]; then
+            npx cucumber-js --config cucumber.config.js --tags "@reliability and not @bad-wait"
           elif [ "$MODULE" = "wishlist" ]; then
             npx cucumber-js --config cucumber.config.js --tags "@wishlist or @compare"
           else
